@@ -52,3 +52,8 @@
 
 # Componentes e suas funcoes
 * search component => tera um input dentro dele e um botao que vai nos permitir pesquisar servicos em nossa barbearia
+* barbershop-item => vai exibir todos as barbearia que temos, mostrara a lista delas
+
+
+# Explicacao sobre o nosso banco de dados
+* db.barbershop.findMany({}): Este método é uma consulta ao banco de dados. Especificamente, ele está usando uma biblioteca ORM (Object-Relational Mapping) como Prisma para buscar múltiplos registros de uma tabela chamada barbershop.
