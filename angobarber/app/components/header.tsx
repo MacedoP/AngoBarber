@@ -1,8 +1,6 @@
-import { MenuIcon } from "lucide-react"
-import { Button } from "./ui/button"
 import { Card, CardContent } from "./ui/card"
-import { Sheet, SheetTrigger } from "./ui/sheet"
 import Image from "next/image";
+import SideBar from "./sideBar-right";
 
 const Header = () => {
   return (
@@ -17,13 +15,10 @@ const Header = () => {
         </div>
 
         {/*BOTAO DO MENU LATERAL A DIREITA COM ICON DO MENU NO HEADER*/}
-        <Sheet>
-          <SheetTrigger asChild>
-            <Button size="icon" variant="outline">
-              <MenuIcon/>
-            </Button>
-          </SheetTrigger>
-        </Sheet>
+        <div>
+          <SideBar/>
+        </div>
+      
       </CardContent>
     </Card>
   )

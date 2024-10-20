@@ -79,10 +79,7 @@ const BarbershopDetailPage =  async ({params}: BarberShopPageProps) => {
                 {barbershop.phones.map((phone)=>(
                     <Contactos phones={phone} key={phone}/>
                 ))}
-
             </div>
-          
-
         </div>
      );
 }
