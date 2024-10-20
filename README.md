@@ -12,7 +12,7 @@
  # npx prisma migrate dev --name init_db =>  comando para migrar o nosso banco de dados em modo de desenvolvimento,
 
 
-//Comando para comitar no github pela linha de comando
+## Comando para comitar no github pela linha de comando
 * 1 git add .
 * 2 git commit -m "chore: o nome do seu commit"
 
@@ -33,7 +33,7 @@
 
 * Tailwind bibliioteca de estilicao, que nem o css , mais os seus estilos sao feito [inline] ou seja dentro da propria tag [<div className="text-sm">]
 
-# Prettier
+## Prettier
 * Usando normalmente para formatar ou organizar os nosso codigo
 * instalacao do mesmo[npm install -D prettier prettier-plugin-tailwindcss] , lembrando que ele possui um plugin no vscode, mais neste caso estamos a usar ele para formatar os codigo so nosso tailwind 
 * apois instalar o mesmo precisaras criar um ficheiro do memso dentro da pasta [app]
@@ -48,7 +48,7 @@
 
 * Comonado para sua instalacao ou podes consultar a documentacao para saber sobre o mesmo [https://ui.shadcn.com/docs/installation/next]
 
-# Todas as pastas que possuiem um "underline antes indica que nao sao pagina ou nao possuem paginas dentro delas"
+### Todas as pastas que possuiem um "underline antes indica que nao sao pagina ou nao possuem paginas dentro delas"
 
 # Componentes e suas funcoes
 * search component => tera um input dentro dele e um botao que vai nos permitir pesquisar servicos em nossa barbearia
@@ -58,5 +58,5 @@
 # Explicacao sobre o nosso banco de dados
 * db.barbershop.findMany({}): Este método é uma consulta ao banco de dados. Especificamente, ele está usando uma biblioteca ORM (Object-Relational Mapping) como Prisma para buscar múltiplos registros de uma tabela chamada barbershop.
 
-# Accao de copoiar um contaco do nosso footer contacto fonte do codigo
+# Accao de copoiar um contacto do nosso footer contacto fonte do codigo
 [https://stackoverflow.com/questions/39501289/in-reactjs-how-to-copy-text-to-clipboard]
