@@ -12,7 +12,7 @@ const Home = async () => {
   const barbershops = await db.barbershop.findMany({})
   const popularesBarbershop = await db.barbershop.findMany({
     orderBy: {
-      name: "asc"
+      name: "desc"
     }
   })
   
