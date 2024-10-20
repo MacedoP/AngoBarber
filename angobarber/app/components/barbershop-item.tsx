@@ -13,10 +13,10 @@ interface BarberShopItemProps {
 const BarberShopItem = ({ barbershop }: BarberShopItemProps) => {
   return (
     <Card className="min-w-[167px] ">{/*Para deixar responsivo teremos que remover esta medida fixa*/}
-      <CardContent className="p-0 px-1 pt-1">
+      <CardContent className="p-0 px-1 pt-1 ">
 
         {/*Fotos das barbearia*/}
-        <div className="servei_img relative h-[159px] w-full container_img">
+        <div className="servei_img relative h-[159px] w-full container_img ">
           <Image
             fill
             className="barber_img object-cover"
