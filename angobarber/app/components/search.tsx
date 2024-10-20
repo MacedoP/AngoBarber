@@ -5,6 +5,7 @@ import { Input } from "./ui/input"
 const Search = () => {
   return (
     <div>
+      
       <h2 className="text-xl font-bold">Olá Fracisco</h2>
       <p>Domingo, 20 de outubro</p>
 
@@ -14,6 +15,7 @@ const Search = () => {
           <SearchIcon />
         </Button>
       </div>
+
     </div>
   )
 }
