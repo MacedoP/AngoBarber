@@ -24,7 +24,7 @@
 
 # Explicacoes Breves sobre o react-next
 
-* O reaxt-next trata todas as pastas com o nome de[page.ts como pages]
+* O reaxt-next trata todas as pastas com o nome de[page.ts como paginas da nossa aplicacao]
 * Lembrando que todos os components do reactnext por padrao sao [server-component] 
 * Um server component é um component que é executado no lado do servidor, como bancos de dados ou dados sensiveis
 * Os nao permitem que seja adicionado neles iteratividade como o click em botao ou um outro evento, ou um estado, caso precisamos fazer uma iteracao precisamos transformar o componente em um lient-component unsado a seguinte sintaxe "use client", dentro do component.
