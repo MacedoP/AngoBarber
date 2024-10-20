@@ -1,7 +1,7 @@
 import { MenuIcon } from "lucide-react"
 import { Button } from "./ui/button"
 import { Card, CardContent } from "./ui/card"
-import { Sheet, SheetContent, SheetTrigger } from "./ui/sheet"
+import { Sheet, SheetTrigger } from "./ui/sheet"
 import Image from "next/image";
 
 const Header = () => {
@@ -20,13 +20,9 @@ const Header = () => {
         <Sheet>
           <SheetTrigger asChild>
             <Button size="icon" variant="outline">
-              <MenuIcon />
+              <MenuIcon/>
             </Button>
           </SheetTrigger>
-
-          <SheetContent>
-            
-          </SheetContent>
         </Sheet>
       </CardContent>
     </Card>
