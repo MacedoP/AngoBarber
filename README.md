@@ -42,3 +42,10 @@
 
 # Explicacoes dos caminhos das pastas 
 * Home page esta dentro da paste [app] abixo do arquivo layout, esta é a nossa [Home page]
+
+# Biblioteca Shadcn ui
+* Usado por programadores front-end ajudando assim, na consecao de aplicativos de uma forma mais rapida e sem rodeio, lembrando que todos os componentes desta biblioteca ante de serem usados precisam ser instalados
+
+* Comonado para sua instalacao ou podes consultar a documentacao para saber sobre o mesmo [https://ui.shadcn.com/docs/installation/next]
+
+# Todas as pastas que possuiem um "underline antes indica que nao sao pagina ou nao possuem paginas dentro delas"
