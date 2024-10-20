@@ -49,3 +49,6 @@
 * Comonado para sua instalacao ou podes consultar a documentacao para saber sobre o mesmo [https://ui.shadcn.com/docs/installation/next]
 
 # Todas as pastas que possuiem um "underline antes indica que nao sao pagina ou nao possuem paginas dentro delas"
+
+# Componentes e suas funcoes
+* search component => tera um input dentro dele e um botao que vai nos permitir pesquisar servicos em nossa barbearia
