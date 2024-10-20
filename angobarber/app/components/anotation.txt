@@ -1,0 +1,14 @@
+# Componente barbershop-service-item, vai exibir as nossas barbearias com os serviços disponiveis e os seus respectivos preços, os conteudo desta pagina sera exibido na nossa segunda pagina, que esta dentro da pasta barbershops.
+
+# O BarbershopService é uma tabela no nosso banco de dados , e nao um componente
+interface ServiceItemProps{
+    service: BarbershopService
+}
+
+# O codigo abaixo faz o seguint, ele faz uma conversao de valores, pegando a moeda do pais o qual esta sendo usado o aplicativo [AOA] quer dizer kwanza que é a moeda usado em Angola
+
+ <p className="text-primary font-bold">
+ {Intl.NumberFormat("pt-BR",{
+        style: "currency",
+        currency: 'AOA'
+        }).format(Number(service.price))}</p>

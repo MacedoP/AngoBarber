@@ -1,3 +1,5 @@
+## SEGUNDA PAGINA DA NOSSA APLICACAO
+
 # A pagina presente nesta pasta , vai exibir as descricoes das nossas barbearias assim como sua localizacao, e os servico que a mesma barbearia oferece, lembrando que esta barbearia é escolhida na nossa pagina home, 
 
 const BarbershopDetailPage = (params) => {
