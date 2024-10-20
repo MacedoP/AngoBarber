@@ -12,3 +12,7 @@ interface ServiceItemProps{
         style: "currency",
         currency: 'AOA'
         }).format(Number(service.price))}</p>
+
+
+# O codigo abaixo retira do staoverflow nos permite a accao de copiar os nossos contantos no nosso footer contacto
+https://stackoverflow.com/questions/39501289/in-reactjs-how-to-copy-text-to-clipboard

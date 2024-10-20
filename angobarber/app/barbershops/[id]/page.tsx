@@ -1,5 +1,6 @@
 import ServiceItemBarber from "@/app/components/barbershop-service-item";
 import MenuArrowBack from "@/app/components/button-menu-back";
+import Contactos from "@/app/components/footer-number-contact";
 import { db } from "@/app/lib/prisma";
 import { MapPin, StarIcon } from "lucide-react";
 import Image from "next/image";
@@ -62,13 +63,23 @@ const BarbershopDetailPage =  async ({params}: BarberShopPageProps) => {
             </div>
 
             {/*Div que contem os serviços e os preços do component barbershop-serive-item*/}
-            <div className="p-5  space-y-4">
+            <div className="p-5  space-y-4 border-b border-solid">
                 <h2 className="uppercase text-gray-400 font-bold text-xs mb-3">Serviços</h2>
                 <div className="space-y-3">
                     {barbershop.services.map((service)=>(
                         <ServiceItemBarber service={service} key={service.id} />
                     ))}
                 </div>
+            </div>
+
+
+            
+            <div className="p-5">
+                <h2  className="uppercase text-gray-400 font-bold text-xs mb-3">contactos</h2>
+                {barbershop.phones.map((phone)=>(
+                    <Contactos phones={phone} key={phone}/>
+                ))}
+
             </div>
           
 

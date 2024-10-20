@@ -9,7 +9,7 @@ interface ServiceItemProps{
 
 const ServiceItemBarber = ({service}: ServiceItemProps) => {
     return ( 
-        <Card>
+        <Card className="border-b border-solid">
             <CardContent className="flex gap-3  w-full  p-3">
 
             {/*Div que contem as imagens dos serviços*/}

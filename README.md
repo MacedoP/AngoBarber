@@ -57,3 +57,6 @@
 
 # Explicacao sobre o nosso banco de dados
 * db.barbershop.findMany({}): Este método é uma consulta ao banco de dados. Especificamente, ele está usando uma biblioteca ORM (Object-Relational Mapping) como Prisma para buscar múltiplos registros de uma tabela chamada barbershop.
+
+# Accao de copoiar um contaco do nosso footer contacto fonte do codigo
+[https://stackoverflow.com/questions/39501289/in-reactjs-how-to-copy-text-to-clipboard]
