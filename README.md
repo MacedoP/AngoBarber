@@ -63,3 +63,9 @@
 
 ## Biblioteca NextAuth.js 
 * Ela impplementa autenticacao no next.js, usado em nosso projecto para fazer o login ou se cadastrar com a conta do google, ela nos permite criar, login com redes socias se assim desejares sabares mais siga o link da documentacao [https://next-auth.js.org/providers/google] 
+
+### Google developer console
+* Abra o nome em cima ou pesquise, depois de fazer todos os passos descrito nas anotacios dentro da pasta [api/auth/[...nextauth]] la encontraras mais informacao a respeito do processo.
+
+* Apois abrir o cite faça o login com sua conta do google
+* Procura a aba de criar novo projecto, click ai, passo o nome do projecto, e clicar em criar

@@ -1,9 +1,16 @@
+"use client";
+
 import { LogIn } from "lucide-react";
 import { Button } from "./ui/button";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "./ui/dialog";
 import Image from "next/image";
+import { signIn, useSession } from "next-auth/react";
 
 const LoginDialog = () => {
+    const handleLoginWithGoogle = async () =>{
+         await signIn("google")
+    }
+
     return (  
         <Dialog>
 
@@ -22,7 +29,9 @@ const LoginDialog = () => {
                     </DialogDescription>
                 </DialogHeader>
 
-                <Button variant="outline" className="font-bold gap-2 text-lg">
+                <Button variant="outline" className="font-bold gap-2 text-lg" 
+                        onClick={handleLoginWithGoogle}>
+
                     <Image src="/google.svg" width={18} height={18} alt="Google icon "/>
                     Google
                 </Button>

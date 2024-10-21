@@ -14,9 +14,14 @@ import Image from "next/image"
 import ButtonOut from "./ button-logout";
 import Link from "next/link";
 import LoginDialog from "./alert-login-google";
+import { Avatar, AvatarImage } from "./ui/avatar";
+import { useSession } from "next-auth/react";
 
 
 const SideBar = () => {
+
+  const {data} = useSession(); 
+
   return (
     <Sheet>
       <SheetTrigger asChild>
@@ -29,24 +34,33 @@ const SideBar = () => {
         <SheetHeader>
           <SheetTitle className="text-left">Menu</SheetTitle>
         </SheetHeader>
+       
+       {/*Div que contem o nosso operador ternaria que vai dizer caso nao tenhamos nenhum usuario exibe a mensagem Faça seu login*/}
+        <div className="py-5 border-b border-solid flex items-center gap-2">
+          {data?.user ? (
+            <div className="flex items-center gap-2">
+              <Avatar>
+                  <AvatarImage src={data?.user?.image ?? ""}/>
+              </Avatar>
+              <div className="text-sm ">
+                  <p className="font-bold">{data.user.name}</p>
+                  <p className="text-gray-400">{data.user.email}</p>
+              </div>
+          </div>
 
+          ): (
 
-        <div className="py-5 border-b border-solid flex items-center  justify-between gap-2">
-          <h2 className="font-bold text-md">Olá, faça seu login</h2>
-          <LoginDialog/>
-            {/* <Avatar>
-                <AvatarImage src="/banner04.jpg"/>
-            </Avatar>
+            <div className="flex items-center justify-between w-full">
+              {/*Se nao tiver nenhum usuario esta mensagem sera exibia*/}
+                <h2 className="font-bold text-md">Olá, faça seu login</h2>
+                
+                <LoginDialog />
+            </div>
+          )}
+         </div> 
 
-            <div className="text-sm ">
-                <p className="font-bold">Miguel Paulo</p>
-                <p className="text-gray-400">lumibarber53@gmail.com</p>
-            </div> */}
-
-        </div>
 
         <div className="flex flex-col gap-2 py-5 border-b border-solid">
-
           <SheetClose asChild>
             <Button className="flex items-center justify-start gap-2" asChild>
                 <Link href="/">
