@@ -1,6 +1,13 @@
 "use client";
-import { Calendar1Icon, HomeIcon, MenuIcon } from "lucide-react"
-import { Button } from "./ui/button"
+import { Calendar1Icon, HomeIcon, MenuIcon } from "lucide-react";
+import { useSession } from "next-auth/react";
+import Image from "next/image";
+import Link from "next/link";
+import { quickSearchOptions } from "../file_item_filter/item-search";
+import ButtonOut from "./ button-logout";
+import LoginDialog from "./alert-login-google";
+import { Avatar, AvatarImage } from "./ui/avatar";
+import { Button } from "./ui/button";
 import {
   Sheet,
   SheetClose,
@@ -8,14 +15,7 @@ import {
   SheetHeader,
   SheetTitle,
   SheetTrigger,
-} from "./ui/sheet"
-import { quickSearchOptions } from "../file_item_filter/item-search"
-import Image from "next/image"
-import ButtonOut from "./ button-logout";
-import Link from "next/link";
-import LoginDialog from "./alert-login-google";
-import { Avatar, AvatarImage } from "./ui/avatar";
-import { useSession } from "next-auth/react";
+} from "./ui/sheet";
 
 
 const SideBar = () => {

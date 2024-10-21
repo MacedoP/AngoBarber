@@ -22,7 +22,7 @@ const Home = async () => {
       <Header />
 
       {/*Input e o botao de pesquisa*/}
-      <div className="p-5">
+      <div className="p-5 mt-4">
         <Search />
       </div>
 

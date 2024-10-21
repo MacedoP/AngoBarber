@@ -27,6 +27,8 @@ const BarbershopDetailPage =  async ({params}: BarberShopPageProps) => {
         return notFound
     }
 
+    
+
     return ( 
         <div>
             {/*Div que exibe uma foto das barbearia tecnicamente um dos serviços*/}

@@ -27,3 +27,18 @@ const barbershop = await db.barbershop.findUnique({
   if(!barbershop){
         return notFound
     }
+
+
+# Acessando o meu banco dados na tabela barbershop
+## Explicacoes
+
+ const barbershops = await db.barbershop.findMany({
+        where:{
+            name:{
+            //procura o nome que foi digitado no nosso input
+                contains: searchParams?.search,
+
+                mode: "insensitive",// isso quer digitando letras maiusculas ou minusculas , sera aceite
+            }
+        }
+    })

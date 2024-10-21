@@ -1,22 +1,67 @@
+"use client";
+
 import { SearchIcon } from "lucide-react"
 import { Button } from "./ui/button"
 import { Input } from "./ui/input"
+import { useRouter } from "next/navigation";
+import { zodResolver } from "@hookform/resolvers/zod"
+import { z } from "zod"
+import { useForm } from "react-hook-form";
+import { Form, FormControl, FormField, FormItem, FormMessage } from "./ui/form";
+ 
+const formSchema = z.object({
+  search: z.string().trim().min(1,{
+    message: "Digite o nome do serviços que desejas buscar",
+  })
+})
 
+/******************************************************************/
 const Search = () => {
+
+  const form = useForm<z.infer<typeof formSchema>>({
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      search: "",
+    },
+  })
+
+  
+  const router = useRouter();
+
+  const handleSubmit = (data:z.infer<typeof formSchema>) =>{
+    router.push(`/barbershops?search=${data.search}`)
+    
+  }
+
   return (
-    <div>
-      
-      <h2 className="text-xl font-bold">Olá Fracisco</h2>
-      <p>Domingo, 20 de outubro</p>
+    <Form {...form}>
+    <form onSubmit={form.handleSubmit(handleSubmit)} 
+    className=" w-full flex gap-2">
+      <FormField
+        control={form.control}
+        name="search"
+        render={({ field }) => (
+          <FormItem className="w-full flex flex-col items-center">
 
-      <div className="flex items-center gap-2 mt-6">
-        <Input placeholder="Faça sua busca..." />
-        <Button>
-          <SearchIcon />
-        </Button>
-      </div>
 
-    </div>
+    
+            <FormControl >
+              <Input placeholder="Faça sua busca..." 
+              {...field}/>
+            </FormControl>
+
+        
+            <FormMessage />
+          </FormItem>
+
+
+        )}
+      />
+      <Button type="submit">
+        <SearchIcon/>
+      </Button>
+    </form>
+  </Form>
   )
 }
 

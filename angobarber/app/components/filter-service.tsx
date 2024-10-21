@@ -4,7 +4,7 @@ import { Button } from "./ui/button"
 
 const Filter = () => {
   return (
-    <div className="mx-auto flex w-full max-w-4xl flex-wrap justify-center gap-3 p-5">
+    <div className="mx-auto flex w-full max-w-4xl flex-wrap justify-center gap-3 p-2">
       {/*[&:: -webkit-scrollbar]:hidden mb-[0px] mt-[-10px] flex scroll-mx-0 gap-3 overflow-scroll p-5*/}
 
       {quickSearchOptions.map((options) => (
