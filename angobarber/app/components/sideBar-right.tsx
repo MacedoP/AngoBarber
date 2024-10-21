@@ -12,8 +12,8 @@ import {
 import { quickSearchOptions } from "../file_item_filter/item-search"
 import Image from "next/image"
 import ButtonOut from "./ button-logout";
-import { Avatar, AvatarImage } from "./ui/avatar";
 import Link from "next/link";
+import LoginDialog from "./alert-login-google";
 
 
 const SideBar = () => {
@@ -31,15 +31,17 @@ const SideBar = () => {
         </SheetHeader>
 
 
-        <div className="py-5 border-b border-solid flex items-center gap-2">
-            <Avatar>
+        <div className="py-5 border-b border-solid flex items-center  justify-between gap-2">
+          <h2 className="font-bold text-md">Olá, faça seu login</h2>
+          <LoginDialog/>
+            {/* <Avatar>
                 <AvatarImage src="/banner04.jpg"/>
             </Avatar>
 
             <div className="text-sm ">
                 <p className="font-bold">Miguel Paulo</p>
                 <p className="text-gray-400">lumibarber53@gmail.com</p>
-            </div>
+            </div> */}
 
         </div>
 
@@ -47,7 +49,6 @@ const SideBar = () => {
 
           <SheetClose asChild>
             <Button className="flex items-center justify-start gap-2" asChild>
-
                 <Link href="/">
                     <HomeIcon size={18} />
                     Ínicio
@@ -64,6 +65,7 @@ const SideBar = () => {
           </Button>
         </div>
 
+          {/*Div que guarda os nosso itens de busca rapida com os respectivos icon*/}
         <div className="flex flex-col  items-start  gap-2 border-b border-solid  mb-4 py-5">
             {quickSearchOptions.map((filter)=>(
                 <Button key={filter.title} variant="ghost"  

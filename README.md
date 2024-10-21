@@ -9,7 +9,7 @@
 
  # npx prisma format => comando usado para formatar o nosso banco de dados
 
- # npx prisma migrate dev --name init_db =>  comando para migrar o nosso banco de dados em modo de desenvolvimento,
+ # npx prisma migrate dev --name init_db =>  comando para migrar o nosso banco de dados em modo de desenvolvimento, Uma migrate nada mais é quando mudamos o estado do nosso banco de dados, tipo adicionar novas tabelas ou dados
 
 
 ## Comando para comitar no github pela linha de comando
@@ -60,3 +60,6 @@
 
 # Accao de copoiar um contacto do nosso footer contacto fonte do codigo
 [https://stackoverflow.com/questions/39501289/in-reactjs-how-to-copy-text-to-clipboard]
+
+## Biblioteca NextAuth.js 
+* Ela impplementa autenticacao no next.js, usado em nosso projecto para fazer o login ou se cadastrar com a conta do google, ela nos permite criar, login com redes socias se assim desejares sabares mais siga o link da documentacao [https://next-auth.js.org/providers/google] 
