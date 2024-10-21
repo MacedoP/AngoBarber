@@ -1,9 +1,7 @@
 "use client";
 import { Calendar1Icon, HomeIcon, MenuIcon } from "lucide-react";
 import { useSession } from "next-auth/react";
-import Image from "next/image";
 import Link from "next/link";
-import { quickSearchOptions } from "../file_item_filter/item-search";
 import ButtonOut from "./ button-logout";
 import LoginDialog from "./alert-login-google";
 import { Avatar, AvatarImage } from "./ui/avatar";
@@ -16,6 +14,9 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "./ui/sheet";
+import { quickSearchOptions } from "../file_item_filter/item-search";
+import Image from "next/image"
+
 
 
 const SideBar = () => {
@@ -81,18 +82,24 @@ const SideBar = () => {
 
           {/*Div que guarda os nosso itens de busca rapida com os respectivos icon*/}
         <div className="flex flex-col  items-start  gap-2 border-b border-solid  mb-4 py-5">
-            {quickSearchOptions.map((filter)=>(
-                <Button key={filter.title} variant="ghost"  
-                className="gap-3 text-white text-md w-full flex justify-start">
-                    <Image 
-                        src={filter.imageUrl} 
+              {quickSearchOptions.map((filter) => (
+                <SheetClose  key={filter.title} asChild>
+                  <Button
+                    variant="ghost"
+                    className="text-md flex w-full justify-start gap-3 text-white"
+                    asChild
+                  >
+                    <Link href={`barbershops?services=${filter.title}`}>
+                      <Image
+                        src={filter.imageUrl}
                         alt={filter.title}
                         width={18}
                         height={18}
-                    />
-                    {filter.title}
-
-                </Button>
+                      />
+                      {filter.title}
+                    </Link>
+                  </Button>
+                </SheetClose>
             ))}
         </div>
 

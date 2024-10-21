@@ -19,7 +19,9 @@ const Home = async () => {
 
   return (
     <div>
-      <Header />
+     
+        <Header />
+    
 
       {/*Input e o botao de pesquisa*/}
       <div className="p-5 mt-4">

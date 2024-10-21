@@ -1,4 +1,3 @@
-import Link from "next/link";
 import BarberShopItem from "../components/barbershop-item";
 import Header from "../components/header";
 import Search from "../components/search";
@@ -6,27 +5,44 @@ import { db } from "../lib/prisma";
 
 interface BarbershopPageSearchResultProps {
     searchParams:{
-        search? : string
+        title? : string,
+        services: string,
     }
 }
 
 const BarbershopPageSearchResult = async ({searchParams}: BarbershopPageSearchResultProps) => {
     const barbershops = await db.barbershop.findMany({
-        where:{
-            name:{
-                contains: searchParams?.search,
-                mode: "insensitive",
-            }
-        }
-    })
+        where: {
+          OR:[
+            //se eu passar um titulo busco um servico pelo seu titulo 
+            searchParams?.title? {
+              name:{
+                contains: searchParams?.title,
+                mode: "insensitive"
+    
+              },
+            }: {},
+            //se eu passa um servico procuro o serivo dentro de uma barbearia
+           searchParams.services?{
+            services:{
+              some: {
+                name: {
+                  contains: searchParams?.services,
+                  mode: "insensitive",
+                } ,
+                },
+              },
+            }: {},
+          ],
+        },
+      })
 
     return (  
         <div >
-
-            <Link href="/">
+                
                  <Header/>
-            </Link> 
-
+                
+            
             <div className="p-5 mt-4">
                 <Search/>
             </div>
@@ -34,7 +50,7 @@ const BarbershopPageSearchResult = async ({searchParams}: BarbershopPageSearchRe
              <h2 
              className=" px-5 text-gray-400 uppercase font-bold text-xs mb-1 mt-2 gap-2">
                 Resultado para
-                <q>{searchParams.search}</q>
+                <q>{searchParams?.title || searchParams?.services}</q>
             </h2>
 
             <div className="grid grid-cols-2 gap-4 p-5 desktop">

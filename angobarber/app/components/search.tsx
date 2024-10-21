@@ -10,7 +10,7 @@ import { useForm } from "react-hook-form";
 import { Form, FormControl, FormField, FormItem, FormMessage } from "./ui/form";
  
 const formSchema = z.object({
-  search: z.string().trim().min(1,{
+  title: z.string().trim().min(1,{
     message: "Digite o nome do serviços que desejas buscar",
   })
 })
@@ -21,7 +21,7 @@ const Search = () => {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      search: "",
+      title: "",
     },
   })
 
@@ -29,7 +29,7 @@ const Search = () => {
   const router = useRouter();
 
   const handleSubmit = (data:z.infer<typeof formSchema>) =>{
-    router.push(`/barbershops?search=${data.search}`)
+    router.push(`/barbershops?title=${data.title}`)
     
   }
 
@@ -39,7 +39,7 @@ const Search = () => {
     className=" w-full flex gap-2">
       <FormField
         control={form.control}
-        name="search"
+        name="title"
         render={({ field }) => (
           <FormItem className="w-full flex flex-col items-center">
 
@@ -47,7 +47,7 @@ const Search = () => {
     
             <FormControl >
               <Input placeholder="Faça sua busca..." 
-              {...field}/>
+              {...field} />
             </FormControl>
 
         
@@ -57,7 +57,7 @@ const Search = () => {
 
         )}
       />
-      <Button type="submit">
+      <Button type="submit" >
         <SearchIcon/>
       </Button>
     </form>
