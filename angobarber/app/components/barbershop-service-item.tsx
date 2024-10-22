@@ -50,26 +50,27 @@ const TIME_LIST = [
   "18:30",
 ]
 const ServiceItemBarber = ({ service, barbershop }: ServiceItemProps) => {
-  const {data} = useSession()
+        const {data} = useSession()
 
     console.log(data);
 
-    const[selectDay, setSelectDay] = useState <Date | undefined>(undefined);
+        const[selectDay, setSelectDay] = useState <Date | undefined>(undefined);
 
-    const [selectTime, setTime] =useState<string | undefined>(undefined)
+        const [selectTime, setTime] =useState<string | undefined>(undefined)
 
-    const handleTimeSelect = (time: string) =>{
-        setTime(time);
-    }
- 
-    const handleDaySelect = (date: Date | undefined)=>{
-        setSelectDay(date)
+        const handleTimeSelect = (time: string) =>{
+            setTime(time);
+        }
+    
+        const handleDaySelect = (date: Date | undefined)=>{
+            setSelectDay(date)
 
-    }
+        }
 
     const handleCreateBooking = async () =>{
       //Noa exibe horarios que ja foram agendados
       //Salvar o agendamento para o usuario logado
+
       if(!selectDay || !selectTime) return;
       try{
   
