@@ -14,7 +14,7 @@ import {
 } from "./ui/sheet"
 import { Calendar } from "./ui/calendar"
 import { ptBR} from "date-fns/locale";
-import { format, set, setHours, setMinutes } from "date-fns"
+import { format, set } from "date-fns"
 import { useState } from "react"
 import { createBooking } from "../_actions/create-booking"
 import { useSession } from "next-auth/react"
@@ -51,6 +51,9 @@ const TIME_LIST = [
 ]
 const ServiceItemBarber = ({ service, barbershop }: ServiceItemProps) => {
   const {data} = useSession()
+
+    console.log(data);
+
     const[selectDay, setSelectDay] = useState <Date | undefined>(undefined);
 
     const [selectTime, setTime] =useState<string | undefined>(undefined)
@@ -65,6 +68,8 @@ const ServiceItemBarber = ({ service, barbershop }: ServiceItemProps) => {
     }
 
     const handleCreateBooking = async () =>{
+      //Noa exibe horarios que ja foram agendados
+      //Salvar o agendamento para o usuario logado
       if(!selectDay || !selectTime) return;
       try{
   
@@ -78,8 +83,8 @@ const ServiceItemBarber = ({ service, barbershop }: ServiceItemProps) => {
       
           await createBooking({
               serviceId: service.id,
+              userId: (data?.user as any).id,
               date: newDate,
-              userId: "cm2iwz9jm0000ih6h0ync3xdz"
           })
   
           toast.success("Reserva criada com sucesso!")
@@ -224,9 +229,9 @@ const ServiceItemBarber = ({ service, barbershop }: ServiceItemProps) => {
                         </div>
                       )}
                         {/************************** BOTAO DE CONFIRMAR A RESERVA ********************************/}
-                        <SheetFooter className="px-5">
+                        <SheetFooter className="px-5 mt-5">
                           <SheetClose asChild>
-                            <Button onClick={handleCreateBooking} className="font-bold">Confirmar</Button>
+                            <Button onClick={handleCreateBooking} className="font-bold" disabled={!selectDay || !selectTime}>Confirmar</Button>
                           </SheetClose>
                         </SheetFooter>
                       
