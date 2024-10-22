@@ -1,5 +1,5 @@
 "use client"
-import { Barbershop, BarbershopService } from "@prisma/client"
+import { Barbershop, BarbershopService, Booking } from "@prisma/client"
 import Image from "next/image"
 import { Button } from "./ui/button"
 import { Card, CardContent } from "./ui/card"
@@ -15,10 +15,11 @@ import {
 import { Calendar } from "./ui/calendar"
 import { ptBR} from "date-fns/locale";
 import { format, set } from "date-fns"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { createBooking } from "../_actions/create-booking"
 import { useSession } from "next-auth/react"
 import { toast } from "sonner"
+import { getBookings } from "../_actions/get-bookings"
 
 
 
@@ -50,13 +51,28 @@ const TIME_LIST = [
   "18:30",
 ]
 const ServiceItemBarber = ({ service, barbershop }: ServiceItemProps) => {
+
+      /*******************************************************************/
         const {data} = useSession()
-
-    console.log(data);
-
         const[selectDay, setSelectDay] = useState <Date | undefined>(undefined);
-
         const [selectTime, setTime] =useState<string | undefined>(undefined)
+
+        /*******************************************************************/
+        const [dayBookings, setDayBookings] = useState<Booking[]>([])
+        useEffect(()=>{
+          const fetch = async () =>{
+            if (!selectDay) return
+            const bookings = await getBookings({
+              date: selectDay,
+              serviceId: service.id,
+            })
+            setDayBookings(bookings)
+          }
+          fetch()
+        },[selectDay])
+        
+        /*******************************************************************/
+        console.log({dayBookings});
 
         const handleTimeSelect = (time: string) =>{
             setTime(time);
@@ -64,43 +80,42 @@ const ServiceItemBarber = ({ service, barbershop }: ServiceItemProps) => {
     
         const handleDaySelect = (date: Date | undefined)=>{
             setSelectDay(date)
-
         }
 
-    const handleCreateBooking = async () =>{
+        /*******************************************************************/
+         const handleCreateBooking = async () =>{
       //Noa exibe horarios que ja foram agendados
       //Salvar o agendamento para o usuario logado
 
-      if(!selectDay || !selectTime) return;
-      try{
-  
-          const hour = Number(selectTime.split(":")[0]);
-          const minute = Number(selectTime.split(":")[1]);
+            if(!selectDay || !selectTime) return;
+              try{
         
-          const newDate = set(selectDay,{
-              minutes: minute,
-              hours: hour,
-          })
-      
-          await createBooking({
-              serviceId: service.id,
-              userId: (data?.user as any).id,
-              date: newDate,
-          })
-  
-          toast.success("Reserva criada com sucesso!")
-      }catch(error){
-          console.error(error)
-          toast.error("Erro ao criar reserva!")
-  
-      };
+                  const hour = Number(selectTime.split(":")[0]);
+                  const minute = Number(selectTime.split(":")[1]);
+                
+                  const newDate = set(selectDay,{
+                      minutes: minute,
+                      hours: hour,
+                  })
+                  await createBooking({
+                    serviceId: service.id,
+                    userId: (data?.user as any).id,
+                    date: newDate,
+                  
+                  })
+                  toast.success("Reserva criada com sucesso!")
+            }catch(error){
+                console.error(error)
+                toast.error("Erro ao criar reserva!")
+        
+            };
       
   }
 
 
   return (
-    <Card className="border-b border-solid">
-      <CardContent className="flex w-full gap-3 p-3">
+    <Card className="border-b border-solid overflow-x-auto">
+      <CardContent className="flex w-full gap-3 p-3 overflow-x-auto">
         {/*Div que contem as imagens dos serviços*/}
         <div className="container_img relative max-h-[110px] min-h-[110px] min-w-[110px] max-w-[110px]">
           <Image
@@ -125,7 +140,7 @@ const ServiceItemBarber = ({ service, barbershop }: ServiceItemProps) => {
 
             {/*Component que guarda o botao reservar no lado direito do preço*/}
             {/****************************************************************/}
-            <Sheet>
+            <Sheet >
               <SheetTrigger asChild>
                 <Button
                   className="flex items-center justify-end"
@@ -136,7 +151,7 @@ const ServiceItemBarber = ({ service, barbershop }: ServiceItemProps) => {
                 </Button>
               </SheetTrigger>
 
-              <SheetContent className="px-0">
+              <SheetContent className="px-0 overflow-x-auto">
                 <SheetHeader>
                   <SheetTitle className="border-b border-solid p-1 text-center">
                     Fazer Reserva
