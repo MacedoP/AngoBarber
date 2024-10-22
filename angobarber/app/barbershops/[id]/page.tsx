@@ -27,9 +27,6 @@ const BarbershopDetailPage =  async ({params}: BarberShopPageProps) => {
     if(!barbershop){
         return notFound
     }
-
-    
-
     return ( 
         <div>
             {/*Div que exibe uma foto das barbearia tecnicamente um dos serviços*/}
@@ -70,7 +67,7 @@ const BarbershopDetailPage =  async ({params}: BarberShopPageProps) => {
                 <h2 className="uppercase text-gray-400 font-bold text-xs mb-3">Serviços</h2>
                 <div className="space-y-3">
                     {barbershop.services.map((service)=>(
-                        <ServiceItemBarber service={service} key={service.id} />
+                        <ServiceItemBarber service={service} barbershop={barbershop} key={service.id} />
                     ))}
                 </div>
             </div>
