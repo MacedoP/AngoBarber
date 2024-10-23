@@ -83,10 +83,7 @@ const ServiceItemBarber = ({ service, barbershop }: ServiceItemProps) => {
         }
 
         /*******************************************************************/
-         const handleCreateBooking = async () =>{
-      //Noa exibe horarios que ja foram agendados
-      //Salvar o agendamento para o usuario logado
-
+         const handleCreateBooking = async () => {
             if(!selectDay || !selectTime) return;
               try{
         
@@ -104,15 +101,12 @@ const ServiceItemBarber = ({ service, barbershop }: ServiceItemProps) => {
                   
                   })
                   toast.success("Reserva criada com sucesso!")
-            }catch(error){
-                console.error(error)
-                toast.error("Erro ao criar reserva!")
-        
+              }catch(error){
+                  console.error(error)
+                  toast.error("Erro ao criar reserva!")
             };
-      
-  }
-
-
+          }
+           /*******************************************************************/
   return (
     <Card className="border-b border-solid overflow-x-auto">
       <CardContent className="flex w-full gap-3 p-3 overflow-x-auto">
