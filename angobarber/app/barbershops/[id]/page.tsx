@@ -1,13 +1,12 @@
-import ServiceItemBarber from "@/app/components/barbershop-service-item"
-import Contactos from "@/app/components/footer-number-contact"
-import { Button } from "@/app/components/ui/button"
-import { db } from "@/app/lib/prisma"
-import { MapPin, StarIcon } from "lucide-react"
+"use server"
+import ServiceItemBarber from "@/app/_components/barbershop-service-item"
+import Contactos from "@/app/_components/footer-number-contact"
+import { Button } from "@/app/_components/ui/button"
+import { db } from "@/app/_lib/prisma"
+import { ChevronLeftIcon, MapPin, StarIcon } from "lucide-react"
 import Image from "next/image"
+import Link from "next/link"
 import { notFound } from "next/navigation"
-import { ChevronLeftIcon } from "lucide-react";
-import Link from "next/link";
-
 
 interface BarberShopPageProps {
   params: {
@@ -39,7 +38,7 @@ const BarbershopDetailPage = async ({ params }: BarberShopPageProps) => {
           alt={barbershop?.name}
         />
         {/*Componente que contem os icone para voltar a home pahe e o icon menu*/}
-         {/**********************************************************/}
+        {/**********************************************************/}
         <div>
           <Button
             className="absolute left-4 top-4"
@@ -71,14 +70,14 @@ const BarbershopDetailPage = async ({ params }: BarberShopPageProps) => {
       </div>
 
       {/*Descricao das barbearias*/}
-       {/**********************************************************/}
+      {/**********************************************************/}
       <div className="border-d space-y-4 border-solid p-5">
         <h2 className="text-xs font-bold uppercase text-gray-400">Sobre nós</h2>
         <p className="w-full text-justify text-sm">{barbershop?.description}</p>
       </div>
 
       {/*Div que contem os serviços e os preços do component barbershop-serive-item*/}
-       {/**********************************************************/}
+      {/**********************************************************/}
       <div className="space-y-4 border-b border-solid p-5">
         <h2 className="mb-3 text-xs font-bold uppercase text-gray-400">
           Serviços

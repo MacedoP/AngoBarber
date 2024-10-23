@@ -1,10 +1,12 @@
-import Banner from "./components/banner"
-import Agendamento from "./components/banner-agendamento"
-import BarberShopItem from "./components/barbershop-item"
-import Filter from "./components/filter-service"
-import Header from "./components/header"
-import Search from "./components/search"
-import { db } from "./lib/prisma"
+
+import Header from "./_components/header"
+import { db } from "./_lib/prisma"
+import Banner from "./_components/banner"
+import Agendamento from "./_components/banner-agendamento"
+import BarberShopItem from "./_components/barbershop-item"
+import Search from "./_components/search"
+import Filter from "./_components/filter-service"
+
 
 const Home = async () => {
   //Chamando o nosso banco de dados
@@ -12,57 +14,50 @@ const Home = async () => {
   const barbershops = await db.barbershop.findMany({})
   const popularesBarbershop = await db.barbershop.findMany({
     orderBy: {
-      name: "desc"
-    }
+      name: "desc",
+    },
   })
-  
 
   return (
     <div>
-     
-        <Header />
-    
+      <Header />
 
       {/*Input e o botao de pesquisa*/}
-      <div className="p-5 mt-4">
+      <div className="mt-4 p-5">
         <Search />
       </div>
 
+      {/*Filter component*/}
 
-        {/*Filter component*/}
-      
-        <Filter/>
+      <Filter />
 
       {/*Banner Principal*/}
       <div className="h=[100%] p-5">
         <Banner />
       </div>
 
-    
-      
-     
       <div className="p-5">
-        <Agendamento/>
+        <Agendamento />
 
-              {/*Abaixo estamos a rodar os nosso bancos  e mostrar as nossas imagens*/}
-              <h2 className="text-gray-400 uppercase font-bold text-xs mb-3 mt-6">Recomendados</h2>
-              <div className="gap-4 flex  overflow-auto [&:: -webkit-scrollbar]:hidden">
-                {barbershops.map((barbershop)=>(
-                  <BarberShopItem key={barbershop.id} barbershop ={barbershop} 
-                  />
-                ))}
-              </div>
+        {/*Abaixo estamos a rodar os nosso bancos  e mostrar as nossas imagens*/}
+        <h2 className="mb-3 mt-6 text-xs font-bold uppercase text-gray-400">
+          Recomendados
+        </h2>
+        <div className="[&:: -webkit-scrollbar]:hidden flex gap-4 overflow-auto">
+          {barbershops.map((barbershop) => (
+            <BarberShopItem key={barbershop.id} barbershop={barbershop} />
+          ))}
+        </div>
 
-              <h2 className="text-gray-400 uppercase font-bold text-xs mb-3 mt-6">Populares</h2>
-              <div className="gap-4 flex  overflow-auto [&:: -webkit-scrollbar]:hidden">
-                {popularesBarbershop.map((barbershop)=>(
-                  <BarberShopItem key={barbershop.id} barbershop ={barbershop} 
-                  />
-                ))}
-              </div>
-
+        <h2 className="mb-3 mt-6 text-xs font-bold uppercase text-gray-400">
+          Populares
+        </h2>
+        <div className="[&:: -webkit-scrollbar]:hidden flex gap-4 overflow-auto">
+          {popularesBarbershop.map((barbershop) => (
+            <BarberShopItem key={barbershop.id} barbershop={barbershop} />
+          ))}
+        </div>
       </div>
-
     </div>
   )
 }

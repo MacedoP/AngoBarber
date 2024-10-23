@@ -50,6 +50,37 @@ const TIME_LIST = [
   "18:00",
   "18:30",
 ]
+
+ /*******************************************************************/
+//  interface GetTimeListProps {
+//   bookings: Booking[]
+//   selectedDay: Date
+// }
+
+// const getTimeList = ({ bookings, selectedDay }: GetTimeListProps) => {
+//   return TIME_LIST.filter((time) => {
+//     const hour = Number(time.split(":")[0])
+//     const minutes = Number(time.split(":")[1])
+
+//     const timeIsOnThePast = isPast(set(new Date(), { hours: hour, minutes }))
+//     if (timeIsOnThePast && isToday(selectedDay)) {
+//       return false
+//     }
+
+//     const hasBookingOnCurrentTime = bookings.some(
+//       (booking) =>
+//         booking.date.getHours() === hour &&
+//         booking.date.getMinutes() === minutes,
+//     )
+//     if (hasBookingOnCurrentTime) {
+//       return false
+//     }
+//     return true
+//   })
+// }
+ /*******************************************************************/
+
+
 const ServiceItemBarber = ({ service, barbershop }: ServiceItemProps) => {
 
       /*******************************************************************/
@@ -69,10 +100,9 @@ const ServiceItemBarber = ({ service, barbershop }: ServiceItemProps) => {
             setDayBookings(bookings)
           }
           fetch()
-        },[selectDay])
+        },[selectDay, service.id])
         
         /*******************************************************************/
-        console.log({dayBookings});
 
         const handleTimeSelect = (time: string) =>{
             setTime(time);
