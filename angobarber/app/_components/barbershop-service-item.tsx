@@ -14,7 +14,7 @@ import {
 } from "./ui/sheet"
 import { Calendar } from "./ui/calendar"
 import { ptBR} from "date-fns/locale";
-import { format, set } from "date-fns"
+import { addDays, format, set } from "date-fns"
 import { useEffect, useState } from "react"
 import { createBooking } from "../_actions/create-booking"
 import { useSession } from "next-auth/react"
@@ -57,27 +57,27 @@ const TIME_LIST = [
 //   selectedDay: Date
 // }
 
-// const getTimeList = ({ bookings, selectedDay }: GetTimeListProps) => {
-//   return TIME_LIST.filter((time) => {
-//     const hour = Number(time.split(":")[0])
-//     const minutes = Number(time.split(":")[1])
+const getTimeList = (bookings: Booking[] ) => {
+  return TIME_LIST.filter((time) => {
+    const hour = Number(time.split(":")[0])
+    const minutes = Number(time.split(":")[1])
 
-//     const timeIsOnThePast = isPast(set(new Date(), { hours: hour, minutes }))
-//     if (timeIsOnThePast && isToday(selectedDay)) {
-//       return false
-//     }
+    // const timeIsOnThePast = isPast(set(new Date(), { hours: hour, minutes }))
+    // if (timeIsOnThePast && isToday(selectedDay)) {
+    //   return false
+    // }
 
-//     const hasBookingOnCurrentTime = bookings.some(
-//       (booking) =>
-//         booking.date.getHours() === hour &&
-//         booking.date.getMinutes() === minutes,
-//     )
-//     if (hasBookingOnCurrentTime) {
-//       return false
-//     }
-//     return true
-//   })
-// }
+    const hasBookingOnCurrentTime = bookings.some(
+      (booking) =>
+        booking.date.getHours() === hour &&
+        booking.date.getMinutes() === minutes,
+    )
+    if (hasBookingOnCurrentTime) {
+      return false
+    }
+    return true
+  })
+}
  /*******************************************************************/
 
 
@@ -90,6 +90,8 @@ const ServiceItemBarber = ({ service, barbershop }: ServiceItemProps) => {
 
         /*******************************************************************/
         const [dayBookings, setDayBookings] = useState<Booking[]>([])
+        const [isSheetOpen, setIsSheetOpen] = useState(false)
+        
         useEffect(()=>{
           const fetch = async () =>{
             if (!selectDay) return
@@ -112,15 +114,24 @@ const ServiceItemBarber = ({ service, barbershop }: ServiceItemProps) => {
             setSelectDay(date)
         }
 
+           /*******************************************************************/
+           const handleSheetOpenChange = () => {
+            setSelectDay(undefined)
+            setTime(undefined)
+            setDayBookings([])
+            setIsSheetOpen(false)
+          }
+
         /*******************************************************************/
          const handleCreateBooking = async () => {
-            if(!selectDay || !selectTime) return;
-              try{
+          console.log({service});
+           try{
+                if(!selectDay || !selectTime) return
         
                   const hour = Number(selectTime.split(":")[0]);
                   const minute = Number(selectTime.split(":")[1]);
                 
-                  const newDate = set(selectDay,{
+                  const newDate = set(selectDay, {
                       minutes: minute,
                       hours: hour,
                   })
@@ -131,12 +142,13 @@ const ServiceItemBarber = ({ service, barbershop }: ServiceItemProps) => {
                   
                   })
                   toast.success("Reserva criada com sucesso!")
+                  handleSheetOpenChange();
               }catch(error){
                   console.error(error)
                   toast.error("Erro ao criar reserva!")
             };
           }
-           /*******************************************************************/
+        
   return (
     <Card className="border-b border-solid overflow-x-auto">
       <CardContent className="flex w-full gap-3 p-3 overflow-x-auto">
@@ -164,16 +176,17 @@ const ServiceItemBarber = ({ service, barbershop }: ServiceItemProps) => {
 
             {/*Component que guarda o botao reservar no lado direito do preço*/}
             {/****************************************************************/}
-            <Sheet >
-              <SheetTrigger asChild>
+            <Sheet open={isSheetOpen} onOpenChange={handleSheetOpenChange}>
+             
                 <Button
                   className="flex items-center justify-end"
                   variant="secondary"
                   size="sm"
+                  onClick={() => setIsSheetOpen(true)}
                 >
                   Reservar
                 </Button>
-              </SheetTrigger>
+            
 
               <SheetContent className="px-0 overflow-x-auto">
                 <SheetHeader>
@@ -189,6 +202,7 @@ const ServiceItemBarber = ({ service, barbershop }: ServiceItemProps) => {
                           locale={ptBR}
                           selected={selectDay}
                           onSelect={handleDaySelect}
+                          fromDate={addDays(new Date(), 1)}
                           styles={{
                               head_cell: {
                                 width: "100%",
@@ -214,7 +228,7 @@ const ServiceItemBarber = ({ service, barbershop }: ServiceItemProps) => {
                    {selectDay && (
                     <div 
                           className="flex items-center gap-3  p-5 overflow-x-auto relative border-b border-solid">
-                        {TIME_LIST.map((time)=>(
+                        {getTimeList(dayBookings).map((time)=>(
                             <Button 
                                 key={time} 
                                 variant={selectTime === time? "default" : "outline"} 
@@ -270,9 +284,9 @@ const ServiceItemBarber = ({ service, barbershop }: ServiceItemProps) => {
                       )}
                         {/************************** BOTAO DE CONFIRMAR A RESERVA ********************************/}
                         <SheetFooter className="px-5 mt-5">
-                          <SheetClose asChild>
+                         
                             <Button onClick={handleCreateBooking} className="font-bold" disabled={!selectDay || !selectTime}>Confirmar</Button>
-                          </SheetClose>
+                         
                         </SheetFooter>
                       
               </SheetContent>
