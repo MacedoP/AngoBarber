@@ -2,9 +2,9 @@
 
 import { LogIn } from "lucide-react";
 import { Button } from "./ui/button";
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "./ui/dialog";
-import Image from "next/image";
-import { signIn, useSession } from "next-auth/react";
+import { Dialog, DialogTrigger } from "./ui/dialog";
+import { signIn } from "next-auth/react";
+import SignDialog from "./sign-in-dialog";
 
 const LoginDialog = () => {
     const handleLoginWithGoogle = async () =>{
@@ -15,11 +15,13 @@ const LoginDialog = () => {
         <Dialog>
 
             <DialogTrigger>
-                <Button size="icon" >
+                <Button size="icon"  onClick={handleLoginWithGoogle}>
                     <LogIn/>
                 </Button>
             </DialogTrigger>
 
+            <SignDialog/>
+{/* 
             <DialogContent className="w-[90%] rounded-xl">
 
                 <DialogHeader>
@@ -36,7 +38,7 @@ const LoginDialog = () => {
                     Google
                 </Button>
 
-            </DialogContent>
+            </DialogContent> */}
 
         </Dialog>
     );

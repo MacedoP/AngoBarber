@@ -16,3 +16,32 @@ interface ServiceItemProps{
 
 # O codigo abaixo retira do staoverflow nos permite a accao de copiar os nossos contantos no nosso footer contacto
 https://stackoverflow.com/questions/39501289/in-reactjs-how-to-copy-text-to-clipboard
+
+## Possivel origem do erro para o agendamento
+const handleCreateBooking = async () => {
+          console.log({service});
+           try{
+                if(!selectDay || !selectTime) return
+        
+                  const hour = Number(selectTime.split(":")[0])
+                  const minute = Number(selectTime.split(":")[1])
+                  const newDate = set(selectDay, {
+                      minutes: minute,
+                      hours: hour,
+                  })
+
+                  await createBooking({
+                    serviceId: service.id,
+                    userId: (data?.user as any).id,
+                    date: newDate,
+                  
+                  })
+
+                  toast.success("Reserva criada com sucesso!")
+                  handleSheetOpenChange()
+                  
+              }catch(error){
+                  console.error(error)
+                  toast.error("Erro ao criar reserva!")
+            };
+          }

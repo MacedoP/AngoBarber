@@ -14,12 +14,15 @@ import {
 } from "./ui/sheet"
 import { Calendar } from "./ui/calendar"
 import { ptBR} from "date-fns/locale";
-import { addDays, format, set } from "date-fns"
+import { format, set } from "date-fns"
 import { useEffect, useState } from "react"
 import { createBooking } from "../_actions/create-booking"
 import { useSession } from "next-auth/react"
 import { toast } from "sonner"
 import { getBookings } from "../_actions/get-bookings"
+import { Dialog } from "./ui/dialog"
+import { DialogContent } from "@radix-ui/react-dialog"
+import SignDialog from "./sign-in-dialog"
 
 
 
@@ -91,7 +94,7 @@ const ServiceItemBarber = ({ service, barbershop }: ServiceItemProps) => {
         /*******************************************************************/
         const [dayBookings, setDayBookings] = useState<Booking[]>([])
         const [isSheetOpen, setIsSheetOpen] = useState(false)
-        
+
         useEffect(()=>{
           const fetch = async () =>{
             if (!selectDay) return
@@ -128,21 +131,23 @@ const ServiceItemBarber = ({ service, barbershop }: ServiceItemProps) => {
            try{
                 if(!selectDay || !selectTime) return
         
-                  const hour = Number(selectTime.split(":")[0]);
-                  const minute = Number(selectTime.split(":")[1]);
-                
+                  const hour = Number(selectTime.split(":")[0])
+                  const minute = Number(selectTime.split(":")[1])
                   const newDate = set(selectDay, {
                       minutes: minute,
                       hours: hour,
                   })
+
                   await createBooking({
                     serviceId: service.id,
                     userId: (data?.user as any).id,
                     date: newDate,
                   
                   })
+
                   toast.success("Reserva criada com sucesso!")
-                  handleSheetOpenChange();
+                  handleSheetOpenChange()
+
               }catch(error){
                   console.error(error)
                   toast.error("Erro ao criar reserva!")
@@ -150,152 +155,161 @@ const ServiceItemBarber = ({ service, barbershop }: ServiceItemProps) => {
           }
         
   return (
-    <Card className="border-b border-solid overflow-x-auto">
-      <CardContent className="flex w-full gap-3 p-3 overflow-x-auto">
-        {/*Div que contem as imagens dos serviços*/}
-        <div className="container_img relative max-h-[110px] min-h-[110px] min-w-[110px] max-w-[110px]">
-          <Image
-            src={service.imageUrl}
-            alt={service.name}
-            fill
-            className="barber_img object-cover"
-          />
-        </div>
-
-        <div className="w-full space-y-3">
-          <h2 className="font-semibold">{service.name}</h2>
-          <p className="text-sm text-gray-400">{service.description}</p>
-
-          <div className="flex w-full items-center justify-between">
-            <p className="text-sm font-bold text-primary">
-              {Intl.NumberFormat("pt-BR", {
-                style: "currency",
-                currency: "AOA",
-              }).format(Number(service.price))}
-            </p>
-
-            {/*Component que guarda o botao reservar no lado direito do preço*/}
-            {/****************************************************************/}
-            <Sheet open={isSheetOpen} onOpenChange={handleSheetOpenChange}>
-             
-                <Button
-                  className="flex items-center justify-end"
-                  variant="secondary"
-                  size="sm"
-                  onClick={() => setIsSheetOpen(true)}
-                >
-                  Reservar
-                </Button>
-            
-
-              <SheetContent className="px-0 overflow-x-auto">
-                <SheetHeader>
-                  <SheetTitle className="border-b border-solid p-1 text-center">
-                    Fazer Reserva
-                  </SheetTitle>
-                </SheetHeader>
-
-                 {/********************** CALENDARIO ****************************************/}
-                  <div className=" border-b border-solid py-5 flex items-center justify-center">
-                      <Calendar 
-                          mode="single" 
-                          locale={ptBR}
-                          selected={selectDay}
-                          onSelect={handleDaySelect}
-                          fromDate={addDays(new Date(), 1)}
-                          styles={{
-                              head_cell: {
-                                width: "100%",
-                                textTransform: "capitalize",
-                              },
-                              cell: {
-                                width: "100%",
-                              },
-                              // button:{
-                              //     width: "100%",
-                              // },
-                              nav_button_previous: {
-                                width: "32px",
-                                height: "32px",
-                              },
-                              caption: {
-                                textTransform: "capitalize",
-                              },
-                          }}/>
-                  </div>
-
-                   {/************************** HORARIOS ********************************/}
-                   {selectDay && (
-                    <div 
-                          className="flex items-center gap-3  p-5 overflow-x-auto relative border-b border-solid">
-                        {getTimeList(dayBookings).map((time)=>(
-                            <Button 
-                                key={time} 
-                                variant={selectTime === time? "default" : "outline"} 
-                                className="rounded-full"
-                                onClick={ () => handleTimeSelect(time)}>
-                                {time}
-                            </Button>
-                        ))}
-                    </div>
-                   )}
-
-                    {/************************** RESUMO DA RESERVA ********************************/}
-                     {selectTime && selectDay && (
-                        <div className="p-5">
-                          <Card>
-                            <CardContent className="p-3 space-y-3">
-                              {/************************** Preço e o tipo de serviço ********************************/}
-                              <div className="flex justify-between items-center ">
-                                <h2 className="font-bold">{service.name}</h2>
-                                <p className="text-sm font-bold">
-                                  {Intl.NumberFormat("pt-BR", {
-                                    style: "currency",
-                                    currency: "AOA",
-                                  }).format(Number(service.price))}
-                                </p>
-                              </div>
-
-                              {/************************** Data e o dia da Reserva ********************************/}
-                              <div className="flex justify-between items-center ">
-                                <h2 className="text-sm text-gray-400">Data</h2>
-                                <p className="text-sm">
-                                  {format(selectDay, "d 'de' MMMM", {locale: ptBR})}
-                                </p>
-                              </div>
-
-                              {/************************** HORAROIO DA RESERVA ********************************/}
-                              <div className="flex justify-between items-center ">
-                                <h2 className="text-sm text-gray-400">Hora</h2>
-                                <p className="text-sm">
-                                  {selectTime}
-                                </p>
-                              </div>
-                              {/************************** NOME DA BARBEARIA ONDE FOI FEITO A RESERVA ********************************/}
-                              <div className="flex justify-between items-center ">
-                                <h2 className="text-sm text-gray-400">Barbearia</h2>
-                                <p className="text-sm">
-                                {barbershop.name}
-                                </p>
-                              </div>
-                            </CardContent>
-                          </Card>
-                        </div>
-                      )}
-                        {/************************** BOTAO DE CONFIRMAR A RESERVA ********************************/}
-                        <SheetFooter className="px-5 mt-5">
-                         
-                            <Button onClick={handleCreateBooking} className="font-bold" disabled={!selectDay || !selectTime}>Confirmar</Button>
-                         
-                        </SheetFooter>
-                      
-              </SheetContent>
-            </Sheet>
-            {/****************************************************************/}
+    <>
+      <Card className="border-b border-solid overflow-x-auto">
+        <CardContent className="flex w-full gap-3 p-3 overflow-x-auto">
+          {/*Div que contem as imagens dos serviços*/}
+          <div className="container_img relative max-h-[110px] min-h-[110px] min-w-[110px] max-w-[110px]">
+            <Image
+              src={service.imageUrl}
+              alt={service.name}
+              fill
+              className="barber_img object-cover"
+            />
           </div>
-        </div>
-      </CardContent>
-    </Card>
+
+          <div className="w-full space-y-3">
+            <h2 className="font-semibold">{service.name}</h2>
+            <p className="text-sm text-gray-400">{service.description}</p>
+
+            <div className="flex w-full items-center justify-between">
+              <p className="text-sm font-bold text-primary">
+                {Intl.NumberFormat("pt-BR", {
+                  style: "currency",
+                  currency: "AOA",
+                }).format(Number(service.price))}
+              </p>
+
+              {/*Component que guarda o botao reservar no lado direito do preço*/}
+              {/****************************************************************/}
+              <Sheet open={isSheetOpen} onOpenChange={handleSheetOpenChange}>
+              
+                  <Button
+                    className="flex items-center justify-end"
+                    variant="secondary"
+                    size="sm"
+                    onClick={() => setIsSheetOpen(true)}
+                  >
+                    Reservar
+                  </Button>
+              
+
+                <SheetContent className="px-0 overflow-x-auto">
+                  <SheetHeader>
+                    <SheetTitle className="border-b border-solid p-1 text-center">
+                      Fazer Reserva
+                    </SheetTitle>
+                  </SheetHeader>
+
+              {/********************** CALENDARIO ****************************************/}
+                    <div className=" border-b border-solid py-5 flex items-center justify-center">
+                        <Calendar 
+                            mode="single" 
+                            locale={ptBR}
+                            selected={selectDay}
+                            onSelect={handleDaySelect}
+                            fromDate={new Date()}
+                            styles={{
+                                head_cell: {
+                                  width: "100%",
+                                  textTransform: "capitalize",
+                                },
+                                cell: {
+                                  width: "100%",
+                                },
+                                // button:{
+                                //     width: "100%",
+                                // },
+                                nav_button_previous: {
+                                  width: "32px",
+                                  height: "32px",
+                                },
+                                caption: {
+                                  textTransform: "capitalize",
+                                },
+                            }}/>
+                    </div>
+
+              {/************************** HORARIOS ********************************/}
+                    {selectDay && (
+                      <div 
+                            className="flex items-center gap-3  p-5 overflow-x-auto relative border-b border-solid">
+                          {getTimeList(dayBookings).map((time)=>(
+                              <Button 
+                                  key={time} 
+                                  variant={selectTime === time? "default" : "outline"} 
+                                  className="rounded-full"
+                                  onClick={ () => handleTimeSelect(time)}>
+                                  {time}
+                              </Button>
+                          ))}
+                      </div>
+                    )}
+
+              {/************************** RESUMO DA RESERVA ********************************/}
+                      {selectTime && selectDay && (
+                          <div className="p-5">
+                            <Card>
+                              <CardContent className="p-3 space-y-3">
+                                {/************************** Preço e o tipo de serviço ********************************/}
+                                <div className="flex justify-between items-center ">
+                                  <h2 className="font-bold">{service.name}</h2>
+                                  <p className="text-sm font-bold">
+                                    {Intl.NumberFormat("pt-BR", {
+                                      style: "currency",
+                                      currency: "AOA",
+                                    }).format(Number(service.price))}
+                                  </p>
+                                </div>
+
+              {/************************** Data e o dia da Reserva ********************************/}
+                                <div className="flex justify-between items-center ">
+                                  <h2 className="text-sm text-gray-400">Data</h2>
+                                  <p className="text-sm">
+                                    {format(selectDay, "d 'de' MMMM", {locale: ptBR})}
+                                  </p>
+                                </div>
+
+              {/************************** HORAROIO DA RESERVA ********************************/}
+                                <div className="flex justify-between items-center ">
+                                  <h2 className="text-sm text-gray-400">Hora</h2>
+                                  <p className="text-sm">
+                                    {selectTime}
+                                  </p>
+                                </div>
+                                {/************************** NOME DA BARBEARIA ONDE FOI FEITO A RESERVA ********************************/}
+                                <div className="flex justify-between items-center ">
+                                  <h2 className="text-sm text-gray-400">Barbearia</h2>
+                                  <p className="text-sm">
+                                  {barbershop.name}
+                                  </p>
+                                </div>
+                              </CardContent>
+                            </Card>
+                          </div>
+                        )}
+                          {/************************** BOTAO DE CONFIRMAR A RESERVA ********************************/}
+                          <SheetFooter className="px-5 mt-5">
+                          
+                              <Button onClick={handleCreateBooking} className="font-bold" disabled={!selectDay || !selectTime}>Confirmar</Button>
+                          
+                          </SheetFooter>
+                        
+                </SheetContent>
+              </Sheet>
+              {/****************************************************************/}
+            </div>
+          </div>
+        </CardContent>
+      </Card>
+
+
+      <Dialog>
+        <DialogContent>
+          <SignDialog></SignDialog>
+        </DialogContent>
+      </Dialog>
+    </>
   )
 }
 
